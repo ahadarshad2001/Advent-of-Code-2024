@@ -3,15 +3,14 @@ from rich import print
 OFFSET = 10000000000000  
 
 def parse_button_line(line):
-
     line = line.strip()
     _, coords = line.split(":", 1)
     coords = coords.strip()
     x_part, y_part = coords.split(",")
-    x_part = x_part.strip()  
-    y_part = y_part.strip() 
-    Ax = int(x_part[1:])  
-    Ay = int(y_part[1:]) 
+    x_part = x_part.strip()
+    y_part = y_part.strip()
+    Ax = int(x_part[1:])
+    Ay = int(y_part[1:])
     return Ax, Ay
 
 def parse_prize_line(line):
@@ -19,14 +18,13 @@ def parse_prize_line(line):
     _, coords = line.split(":", 1)
     coords = coords.strip()
     x_part, y_part = coords.split(",")
-    x_part = x_part.strip() 
-    y_part = y_part.strip() 
-    Px = int(x_part[2:])  
-    Py = int(y_part[2:])  
+    x_part = x_part.strip()
+    y_part = y_part.strip()
+    Px = int(x_part[2:])
+    Py = int(y_part[2:])
     return Px, Py
 
 def min_cost_for_prize_bruteforce(Ax, Ay, Bx, By, Px, Py, max_presses=100):
-    # part 1 
     min_cost = None
     for nA in range(max_presses+1):
         for nB in range(max_presses+1):
@@ -37,8 +35,6 @@ def min_cost_for_prize_bruteforce(Ax, Ay, Bx, By, Px, Py, max_presses=100):
     return min_cost
 
 def solve_machine_cramer(Ax, Ay, Bx, By, Px, Py):
-
-    ## part 2 cramer
     Det = Ax*By - Ay*Bx
     if Det == 0:
         return None
@@ -59,10 +55,19 @@ def solve_machine_cramer(Ax, Ay, Bx, By, Px, Py):
     return cost
 
 def main():
+    import os
 
-    with open("input.txt", "r") as f:
-        raw_lines = [line.strip() for line in f]
-    lines = [line for line in raw_lines if line]  
+    # Correct file path based on your folder structure
+    input_path = os.path.join("Advent of Code 2024", "Day 13", "input.txt")
+
+    try:
+        with open(input_path, "r") as f:
+            raw_lines = [line.strip() for line in f]
+    except FileNotFoundError:
+        print(f"[red]Error:[/red] Input file not found at path: {input_path}")
+        return
+
+    lines = [line for line in raw_lines if line]
 
     machines = []
     for i in range(0, len(lines), 3):
